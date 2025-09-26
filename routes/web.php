@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Content\FAQController;
 use App\Http\Controllers\Admin\Content\FaqsController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PostController;
+use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,17 @@ Route::prefix('admin')->group(function () {
             Route::delete('/destroy/{productCategory}', [CategoryController::class, 'destroy'])->name('admin.market.category.destroy');
             Route::get('/status/{productCategory}', [CategoryController::class, 'status'])->name('admin.market.category.status');
             Route::get('/show-in-menu/{productCategory}', [CategoryController::class, 'showInMenu'])->name('admin.market.category.show-in-menu');
+        });
+
+        // brands
+        Route::prefix('brand')->group(function () {
+            Route::get('/', [BrandController::class, 'index'])->name('admin.market.brand.index');
+            Route::get('/create', [BrandController::class, 'create'])->name('admin.market.brand.create');
+            Route::post('/store', [BrandController::class, 'store'])->name('admin.market.brand.store');
+            Route::get('/edit/{brand}', [BrandController::class, 'edit'])->name('admin.market.brand.edit');
+            Route::put('/update/{brand}', [BrandController::class, 'update'])->name('admin.market.brand.update');
+            Route::delete('/destroy/{brand}', [BrandController::class, 'destroy'])->name('admin.market.brand.destroy');
+            Route::get('/status/{brand}', [BrandController::class, 'status'])->name('admin.market.brand.status');
         });
     });
 

@@ -25,7 +25,7 @@
                            data-bs-parent="#sidenavAccordion">
                            <nav class="sb-sidenav-menu-nested nav">
                                <a class="nav-link" href="{{ route('admin.market.category.index') }}">Categories</a>
-                               <a class="nav-link" href="layout-sidenav-light.html">bla bla bla</a>
+                               <a class="nav-link" href="{{ route('admin.market.brand.index') }}">brands</a>
                            </nav>
                        </div>
                        <a class="nav-link" href="index.html">
