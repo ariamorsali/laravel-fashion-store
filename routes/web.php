@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\Content\CategoryController;
+use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\FAQController;
 use App\Http\Controllers\Admin\Content\FaqsController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PostController;
+use App\Http\Controllers\Admin\Market\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,17 +18,32 @@ Route::get('/', function () {
 // admin
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.home');
+    // market
+    Route::prefix('market')->group(function () {
+        // product_category
+        Route::prefix('category')->group(function () {
+            Route::get('/', [CategoryController::class, 'index'])->name('admin.market.category.index');
+            Route::get('/create', [CategoryController::class, 'create'])->name('admin.market.category.create');
+            Route::post('/store', [CategoryController::class, 'store'])->name('admin.market.category.store');
+            Route::get('/edit/{productCategory}', [CategoryController::class, 'edit'])->name('admin.market.category.edit');
+            Route::put('/update/{productCategory}', [CategoryController::class, 'update'])->name('admin.market.category.update');
+            Route::delete('/destroy/{productCategory}', [CategoryController::class, 'destroy'])->name('admin.market.category.destroy');
+            Route::get('/status/{productCategory}', [CategoryController::class, 'status'])->name('admin.market.category.status');
+            Route::get('/show-in-menu/{productCategory}', [CategoryController::class, 'showInMenu'])->name('admin.market.category.show-in-menu');
+        });
+    });
+
     // content
     Route::prefix('content')->group(function () {
         // category
         Route::prefix('category')->group(function () {
-            Route::get('/', [CategoryController::class, 'index'])->name('admin.content.category.index');
-            Route::get('/create', [CategoryController::class, 'create'])->name('admin.content.category.create');
-            Route::post('/store', [CategoryController::class, 'store'])->name('admin.content.category.store');
-            Route::get('/edit/{postCategory}', [CategoryController::class, 'edit'])->name('admin.content.category.edit');
-            Route::put('/update/{postCategory}', [CategoryController::class, 'update'])->name('admin.content.category.update');
-            Route::delete('/destroy/{postCategory}', [CategoryController::class, 'destroy'])->name('admin.content.category.destroy');
-            Route::get('/status/{postCategory}', [CategoryController::class, 'status'])->name('admin.content.category.status');
+            Route::get('/', [ContentCategoryController::class, 'index'])->name('admin.content.category.index');
+            Route::get('/create', [ContentCategoryController::class, 'create'])->name('admin.content.category.create');
+            Route::post('/store', [ContentCategoryController::class, 'store'])->name('admin.content.category.store');
+            Route::get('/edit/{postCategory}', [ContentCategoryController::class, 'edit'])->name('admin.content.category.edit');
+            Route::put('/update/{postCategory}', [ContentCategoryController::class, 'update'])->name('admin.content.category.update');
+            Route::delete('/destroy/{postCategory}', [ContentCategoryController::class, 'destroy'])->name('admin.content.category.destroy');
+            Route::get('/status/{postCategory}', [ContentCategoryController::class, 'status'])->name('admin.content.category.status');
         });
 
         //post

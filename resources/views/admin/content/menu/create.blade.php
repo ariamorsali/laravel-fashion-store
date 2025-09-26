@@ -28,7 +28,7 @@
                     <section class="row">
                         <section class="col-12 col-md-6 my-3">
                             <div class="form-group">
-                                <label for="name">Menu title</label>
+                                <label for="name">Title</label>
                                 <input type="text" class="form-control form-control-sm" name="name" id="name"
                                     value="{{ old('name') }}">
                             </div>

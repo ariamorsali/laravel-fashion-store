@@ -25,7 +25,7 @@ class PostCategoryRequest extends FormRequest
             return [
                 'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
                 'description' => 'required|max:1500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
-                'slug' => 'nullable',
+                'slug' => 'nullable|unique:post,slug',
                 'image' => 'required|image|mimes:png,jpg,jpeg,gif|max:2048',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',

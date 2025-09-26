@@ -1,7 +1,7 @@
 @extends('admin.layouts.master2')
 
 @section('head-tag')
-    <title>Create Category</title>
+    <title>Edit Category</title>
 
     <style>
         .select2-selection__rendered {
@@ -51,29 +51,30 @@
         <nav style="background-color: #eee; height: 2.25rem" class="my-4 rounded ps-2" aria-label="breadcrumb">
             <ol class="breadcrumb p-1 ">
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="#" style="text-decoration: none">content</a></li>
+                <li class="breadcrumb-item"><a href="#" style="text-decoration: none">market</a></li>
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">category</a></li>
-                <li class="breadcrumb-item active">create category</li>
+                <li class="breadcrumb-item active">edit category</li>
             </ol>
         </nav>
         <section class="main-body-container">
             <section>
-                <h3 class="mt-2">Create Category</h3>
+                <h3 class="mt-2">Edit Category</h3>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-3 mb-3 border-bottom pb-3">
-                <a href="{{ route('admin.content.category.index') }}" class="btn btn-dark btn-sm">Cancel</a>
+                <a href="{{ route('admin.market.category.index') }}" class="btn btn-dark btn-sm">Cancel</a>
             </section>
 
             <section>
-                <form action="{{ route('admin.content.category.store') }}" method="post" enctype="multipart/form-data"
-                    id="form">
+                <form action="{{ route('admin.market.category.update', $productCategory) }}" method="post"
+                    enctype="multipart/form-data" id="form">
                     @csrf
+                    @method('put')
                     <section class="row">
                         <section class="col-12 col-md-6 my-3">
                             <div class="form-group">
                                 <label for="name">Category Name</label>
                                 <input type="text" class="form-control form-control-sm" name="name" id="name"
-                                    value="{{ old('name') }}">
+                                    value="{{ old('name', $productCategory->name) }}">
                             </div>
                             @error('name')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
@@ -84,31 +85,29 @@
 
                         <section class="col-12 col-md-6 my-3">
                             <div class="form-group">
-                                <label for="tags">Tags</label>
-                                <input type="hidden" class="form-control form-control-sm" name="tags" id="tags"
-                                    value="{{ old('tags') }}">
-                                <select class="select2 form-control form-control-sm myselect" id="select_tags" multiple>
-
+                                <label for="parent_id">Parent</label>
+                                <select name="parent_id" class="form-control form-control-sm" id="parent_id">
+                                    <option value="">Main category</option>
+                                    @foreach ($parent_categories as $parent_category)
+                                        <option value="{{ $parent_category->id }}"
+                                            @if (old('parent_id', $productCategory->parent_id) == $parent_category->id) selected @endif>
+                                            {{ $parent_category->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            @error('tags')
+                            @error('parent_id')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
                                     <strong>{{ $message }}</strong>
                                 </div>
                             @enderror
                         </section>
 
-                        <section class="col-12 col-md-6 my-3">
+                        <section class="col-12 my-3">
                             <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" class="form-control form-control-sm" id="status">
-                                    <option value="0" @if (old('status') == 0) selected @endif>inactive
-                                    </option>
-                                    <option value="1" @if (old('status') == 1) selected @endif>active
-                                    </option>
-                                </select>
+                                <label for="">Description</label>
+                                <textarea name="description" class="form-control form-control-sm" id="description">{{ old('description', $productCategory->description) }}</textarea>
                             </div>
-                            @error('status')
+                            @error('description')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
                                     <strong>{{ $message }}</strong>
                                 </div>
@@ -126,22 +125,82 @@
                                 </div>
                             @enderror
                         </section>
+                        @if ($productCategory->image)
+                          <section class="row my-2">
+                            @php
+                                $number = 2;
+                            @endphp
+                            @foreach ($productCategory->image['indexArray'] as $key => $value)
+                                <section class="col-md-{{ 6 / $number }} mr-5">
+                                    <div class="form-check  p-1">
+                                        <input type="radio" name="currentImage" class="form-check-input"
+                                            value="{{ $key }}" id="{{ $number }}"
+                                            @if ($productCategory->image['currentImage'] == $key) checked @endif>
+                                        <label for="{{ $number }}" class="form-check-label mx-3">
+                                            <img src="{{ asset($value) }}" class="img-fluid rounded w-100" alt="">
+                                        </label>
+                                    </div>
+                                </section>
+                                @php
+                                    $number++;
+                                @endphp
+                            @endforeach
+                        </section>   
+                        @endif
+                       
 
-                        <section class="col-12 my-3">
+                        <section class="col-12 col-md-6 my-3">
                             <div class="form-group">
-                                <label for="">Description</label>
-                                <textarea name="description" class="form-control form-control-sm" id="description">
-                                      {{ old('description') }}
-                                    </textarea>
+                                <label for="tags">Tags</label>
+                                <input type="hidden" class="form-control form-control-sm" name="tags" id="tags"
+                                    value="{{ old('tags', $productCategory->tags) }}">
+                                <select class="select2 form-control form-control-sm myselect" id="select_tags" multiple>
+
+                                </select>
                             </div>
-                            @error('description')
+                            @error('tags')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
                                     <strong>{{ $message }}</strong>
                                 </div>
                             @enderror
                         </section>
+
+                        <section class="col-12 col-md-6 my-3">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select name="status" class="form-control form-control-sm" id="status">
+                                    <option value="0" @if (old('status', $productCategory->status) == 0) selected @endif>inactive
+                                    </option>
+                                    <option value="1" @if (old('status', $productCategory->status) == 1) selected @endif>active
+                                    </option>
+                                </select>
+                            </div>
+                            @error('status')
+                                <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
+                        </section>
+
+                        <section class="col-12 col-md-6 my-3">
+                            <div class="form-group">
+                                <label for="show_in_menu">Show in menu</label>
+                                <select name="show_in_menu" class="form-control form-control-sm" id="show_in_menu">
+                                    <option value="0" @if (old('show_in_menu', $productCategory->show_in_menu) == 0) selected @endif>No
+                                    </option>
+                                    <option value="1" @if (old('show_in_menu', $productCategory->show_in_menu) == 1) selected @endif>Yes
+                                    </option>
+                                </select>
+                            </div>
+                            @error('show_in_menu')
+                                <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
+                        </section>
+
                         <section class="col-12 my-3 d-flex justify-content-end">
-                            <button class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </section>
 
                     </section>

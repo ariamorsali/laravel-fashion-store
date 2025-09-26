@@ -76,6 +76,7 @@ class CategoryController extends Controller
     {
         $inputs = $request->all();
 
+        // اگر کاربر فایل جدید آپلود کرد
         if ($request->hasFile('image')) {
             if (!empty($postCategory->image)) {
                 $imageService->deleteIndexFiles($postCategory->image['indexArray']);
@@ -90,6 +91,7 @@ class CategoryController extends Controller
             }
             $inputs['image'] = $result;
         } else {
+            // اگر سایز انتخاب شده رو تغییر داد
             if (isset($inputs['currentImage']) && !empty($postCategory->image)) {
                 $image = $postCategory->image;
                 $image['currentImage'] = $inputs['currentImage'];
