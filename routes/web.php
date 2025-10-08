@@ -9,6 +9,11 @@ use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PostController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
+use App\Http\Controllers\Admin\Market\GalleryController;
+use App\Http\Controllers\Admin\Market\ProductColorController;
+use App\Http\Controllers\Admin\Market\ProductController;
+use App\Http\Controllers\Admin\Market\ProductSizeController;
+use App\Http\Controllers\Admin\Market\ProductVariantController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,6 +47,49 @@ Route::prefix('admin')->group(function () {
             Route::put('/update/{brand}', [BrandController::class, 'update'])->name('admin.market.brand.update');
             Route::delete('/destroy/{brand}', [BrandController::class, 'destroy'])->name('admin.market.brand.destroy');
             Route::get('/status/{brand}', [BrandController::class, 'status'])->name('admin.market.brand.status');
+        });
+
+        // products
+        Route::prefix('product')->group(function () {
+            Route::get('/', [ProductController::class, 'index'])->name('admin.market.product.index');
+            Route::get('/create', [ProductController::class, 'create'])->name('admin.market.product.create');
+            Route::post('/store', [ProductController::class, 'store'])->name('admin.market.product.store');
+            Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('admin.market.product.edit');
+            Route::put('/update/{product}', [ProductController::class, 'update'])->name('admin.market.product.update');
+            Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('admin.market.product.destroy');
+
+            // product gallery
+            Route::get('/gallery/{product}', [GalleryController::class, 'index'])->name('admin.market.gallery.index');
+            Route::get('/gallery/create/{product}', [GalleryController::class, 'create'])->name('admin.market.gallery.create');
+            Route::post('/gallery/store/{product}', [GalleryController::class, 'store'])->name('admin.market.gallery.store');
+            Route::delete('/gallery/destroy/{product}/{gallery}', [GalleryController::class, 'destroy'])->name('admin.market.gallery.destroy');
+
+            // product variant
+            Route::prefix('variant')->group(function () {
+                Route::get('/{product}', [ProductVariantController::class, 'index'])->name('admin.market.variant.index');
+                Route::get('/create/{product}', [ProductVariantController::class, 'create'])->name('admin.market.variant.create');
+                Route::post('/store/{product}', [ProductVariantController::class, 'store'])->name('admin.market.variant.store');
+                Route::get('/edit/{product}/{variant}', [ProductVariantController::class, 'edit'])->name('admin.market.variant.edit');
+                Route::put('/update/{product}/{variant}', [ProductVariantController::class, 'update'])->name('admin.market.variant.update');
+                Route::delete('/destroy/{product}/{variant}', [ProductVariantController::class, 'destroy'])->name('admin.market.variant.destroy');
+                Route::delete('/destroyAllVariants/{product}', [ProductVariantController::class, 'destroyAllVariants'])->name('admin.market.variant.destroyAllVariants');
+            });
+        });
+
+        // colors
+        Route::prefix('color')->group(function () {
+            Route::get('/', [ProductColorController::class, 'index'])->name('admin.market.color.index');
+            Route::get('/create', [ProductColorController::class, 'create'])->name('admin.market.color.create');
+            Route::post('/store', [ProductColorController::class, 'store'])->name('admin.market.color.store');
+            Route::delete('/destroy/{color}', [ProductColorController::class, 'destroy'])->name('admin.market.color.destroy');
+        });
+
+        // sizes
+        Route::prefix('size')->group(function () {
+            Route::get('/', [ProductSizeController::class, 'index'])->name('admin.market.size.index');
+            Route::get('/create', [ProductSizeController::class, 'create'])->name('admin.market.size.create');
+            Route::post('/store', [ProductSizeController::class, 'store'])->name('admin.market.size.store');
+            Route::delete('/destroy/{size}', [ProductSizeController::class, 'destroy'])->name('admin.market.size.destroy');
         });
     });
 

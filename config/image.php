@@ -19,21 +19,31 @@ return [
 
     // index size
     'index-image-sizes' => [
+
         'large' => [
-            'width' => 800,
-            'height' => 600
+            'width' => 1200,
+            'height' => 1485,
         ],
-        'medium' => [
+
+        // تصاویر محصولات portrait (بلند)
+        'main' => [
             'width' => 350,
-            'height' => 350
+            'height' => 434,
         ],
+
+        // کوتاه و عریض
+        'wide' => [
+            'width' => 1200,
+            'height' => 810,
+        ],
+
         'small' => [
-            'width' => 80,
-            'height' => 60
+            'width' => 120,
+            'height' => 150,
         ],
     ],
 
-    'default-current-index-image' => 'medium',
+    'default-current-index-image' => 'original',
 
 
     // index size

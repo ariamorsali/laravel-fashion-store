@@ -156,9 +156,6 @@
                             <button class="btn btn-primary">Submit</button>
                         </section>
 
-                        @error('g-recaptcha-response')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
                     </section>
                 </form>
             </section>

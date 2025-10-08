@@ -46,14 +46,16 @@ class PostController extends Controller
         if ($request->hasFile('image')) {
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
             $result = $imageService->createIndexAndSave($request->file('image'));
+
+            if ($result === false) {
+                return redirect()->route('admin.content.post.index')->with(
+                    'alert-section-error',
+                    'There was an error uploading the photo.'
+                );
+            }
+            $inputs['image'] = $result;
         }
-        if ($result === false) {
-            return redirect()->route('admin.content.post.index')->with(
-                'alert-section-error',
-                'There was an error uploading the photo.'
-            );
-        }
-        $inputs['image'] = $result;
+
         $post = Post::create($inputs);
         return redirect()->route('admin.content.post.index')->with(
             'alert-section-success',

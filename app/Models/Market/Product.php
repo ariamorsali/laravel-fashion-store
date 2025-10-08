@@ -2,12 +2,13 @@
 
 namespace App\Models\Market;
 
+use App\Models\Market\Gallery;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductCategory extends Model
+class Product extends Model
 {
     use HasFactory, SoftDeletes, Sluggable;
 
@@ -21,15 +22,22 @@ class ProductCategory extends Model
             ]
         ];
     }
-    protected $casts = ['image' => 'array'];
+    protected $casts = [
+        'image' => 'array',
+        'published_at' => 'datetime',
+    ];
 
-    public function parent()
+    public function productCategory()
     {
-        return $this->belongsTo(ProductCategory::class, 'parent_id');
+        return $this->belongsTo(ProductCategory::class, 'category_id');
     }
 
-    public function children()
+    public function images()
     {
-        return $this->hasMany(ProductCategory::class, 'parent_id');
+        return $this->hasMany(Gallery::class);
+    }
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 }

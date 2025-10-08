@@ -194,6 +194,7 @@ return [
     'attributes' => [
         'category_id' => 'category',
         'published_at' => 'Release date',
+        'brand_id' => 'brand',
     ],
 
 ];
