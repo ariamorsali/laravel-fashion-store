@@ -51,7 +51,7 @@
                                 <td>
                                     <img class="rounded"
                                         src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}"
-                                        alt="" width="80" height="60">
+                                        alt="" width="75" height="65">
                                 </td>
                                 <td>{{ number_format($product->base_price) }}</td>
                                 <td>{{ $product->productCategory->name ?? '-' }}</td>

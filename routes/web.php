@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\ProductSizeController;
 use App\Http\Controllers\Admin\Market\ProductVariantController;
+use App\Http\Controllers\Admin\Market\PropertyController;
+use App\Http\Controllers\Admin\Market\PropertyValueController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -73,6 +75,28 @@ Route::prefix('admin')->group(function () {
                 Route::put('/update/{product}/{variant}', [ProductVariantController::class, 'update'])->name('admin.market.variant.update');
                 Route::delete('/destroy/{product}/{variant}', [ProductVariantController::class, 'destroy'])->name('admin.market.variant.destroy');
                 Route::delete('/destroyAllVariants/{product}', [ProductVariantController::class, 'destroyAllVariants'])->name('admin.market.variant.destroyAllVariants');
+            });
+        });
+
+
+        // product attributes
+        Route::prefix('property')->group(function () {
+            Route::get('/', [PropertyController::class, 'index'])->name('admin.market.property.index');
+            Route::get('/create', [PropertyController::class, 'create'])->name('admin.market.property.create');
+            Route::post('/store', [PropertyController::class, 'store'])->name('admin.market.property.store');
+            Route::get('/edit/{productAttribute}', [PropertyController::class, 'edit'])->name('admin.market.property.edit');
+            Route::put('/update/{productAttribute}', [PropertyController::class, 'update'])->name('admin.market.property.update');
+            Route::delete('/destroy/{productAttribute}', [PropertyController::class, 'destroy'])->name('admin.market.property.destroy');
+
+
+            // product attribute values
+            Route::prefix('value')->group(function () {
+                Route::get('/{productAttribute}', [PropertyValueController::class, 'index'])->name('admin.market.value.index');
+                Route::get('/create/{productAttribute}', [PropertyValueController::class, 'create'])->name('admin.market.value.create');
+                Route::post('/store/{productAttribute}', [PropertyValueController::class, 'store'])->name('admin.market.value.store');
+                Route::get('/edit/{productAttribute}/{value}', [PropertyValueController::class, 'edit'])->name('admin.market.value.edit');
+                Route::put('/update/{productAttribute}/{value}', [PropertyValueController::class, 'update'])->name('admin.market.value.update');
+                Route::delete('/destroy/{productAttribute}/{value}', [PropertyValueController::class, 'destroy'])->name('admin.market.value.destroy');
             });
         });
 

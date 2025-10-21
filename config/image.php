@@ -43,7 +43,7 @@ return [
         ],
     ],
 
-    'default-current-index-image' => 'original',
+    'default-current-index-image' => 'main',
 
 
     // index size

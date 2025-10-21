@@ -26,9 +26,11 @@
                            <nav class="sb-sidenav-menu-nested nav">
                                <a class="nav-link" href="{{ route('admin.market.category.index') }}">Categories</a>
                                <a class="nav-link" href="{{ route('admin.market.brand.index') }}">Brands</a>
-                               <a class="nav-link" href="{{ route('admin.market.product.index') }}">Products</a>
+                               <a class="nav-link" href="{{ route('admin.market.property.index') }}">Product Attribute</a>
                                <a class="nav-link" href="{{ route('admin.market.color.index') }}">Colors</a>
                                <a class="nav-link" href="{{ route('admin.market.size.index') }}">Sizes</a>
+                               <a class="nav-link" href="{{ route('admin.market.product.index') }}">Products</a>
+
                            </nav>
                        </div>
                        <a class="nav-link" href="index.html">
