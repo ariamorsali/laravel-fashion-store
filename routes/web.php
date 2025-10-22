@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PostController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
+use App\Http\Controllers\Admin\Market\CommentController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
@@ -114,6 +115,16 @@ Route::prefix('admin')->group(function () {
             Route::get('/create', [ProductSizeController::class, 'create'])->name('admin.market.size.create');
             Route::post('/store', [ProductSizeController::class, 'store'])->name('admin.market.size.store');
             Route::delete('/destroy/{size}', [ProductSizeController::class, 'destroy'])->name('admin.market.size.destroy');
+        });
+
+        //comments
+        Route::prefix('comment')->group(function () {
+            Route::get('/', [CommentController::class, 'index'])->name('admin.market.comment.index');
+            Route::get('/show/{comment}', [CommentController::class, 'show'])->name('admin.market.comment.show');
+            Route::delete('/destroy/{comment}', [CommentController::class, 'destroy'])->name('admin.market.comment.destroy');
+            Route::get('/status/{comment}', [CommentController::class, 'status'])->name('admin.market.comment.status');
+            Route::get('/approved/{comment}', [CommentController::class, 'approved'])->name('admin.market.comment.approved');
+            Route::post('/answer/{comment}', [CommentController::class, 'answer'])->name('admin.market.comment.answer');
         });
     });
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Content;
+namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
 use App\Models\Content\Comment;
-use App\Models\Content\Post;
+use App\Models\Market\Product;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -14,13 +14,13 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $unSeenComments = Comment::where('commentable_type', Post::class)->where('seen', 0)->get();
+        $unSeenComments = Comment::where('commentable_type', Product::class)->where('seen', 0)->get();
         foreach ($unSeenComments as $unSeenComment) {
             $unSeenComment->seen = 1;
             $result = $unSeenComment->save();
         }
-        $comments = Comment::with('commentable')->orderBy('created_at', 'desc')->where('commentable_type', Post::class)->paginate(15);
-        return view('admin.content.comment.index', compact('comments'));
+        $comments = Comment::with('commentable')->orderBy('created_at', 'desc')->where('commentable_type', Product::class)->paginate(15);
+        return view('admin.market.comment.index', compact('comments'));
     }
 
     /**
@@ -44,30 +44,9 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        return view('admin.content.comment.show', compact('comment'));
+        return view('admin.market.comment.show', compact('comment'));
     }
-    public function answer(Request $request, Comment $comment)
-    {
-        $request->validate([
-            'body' => 'required|min:2|max:1000|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي. !, ]+$/u',
-        ]);
-        if ($comment->parent_id == null) {
 
-            $inputs = $request->all();
-            $inputs['author_id'] = 1;
-            $inputs['parent_id'] = $comment->id;
-            $inputs['commentable_id'] = $comment->commentable_id;
-            $inputs['commentable_type'] = $comment->commentable_type;
-            $inputs['approved'] = 1;
-            $inputs['status'] = 1;
-
-            $comment = Comment::create($inputs);
-            return redirect()->route('admin.content.comment.index')->with(
-                'alert-section-success',
-                'Your response was successfully recorded.'
-            );
-        }
-    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -92,6 +71,29 @@ class CommentController extends Controller
         //
     }
 
+    public function answer(Request $request, Comment $comment)
+    {
+        $request->validate([
+            'body' => 'required|min:2|max:1000|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي. !, ]+$/u',
+        ]);
+        if ($comment->parent_id == null) {
+
+            $inputs = $request->all();
+            $inputs['author_id'] = 1;
+            $inputs['parent_id'] = $comment->id;
+            $inputs['commentable_id'] = $comment->commentable_id;
+            $inputs['commentable_type'] = $comment->commentable_type;
+            $inputs['approved'] = 1;
+            $inputs['status'] = 1;
+
+            $comment = Comment::create($inputs);
+            return redirect()->route('admin.market.comment.index')->with(
+                'alert-section-success',
+                'Your response was successfully recorded.'
+            );
+        }
+    }
+
     public function status(Comment $comment)
     {
         $comment->status = $comment->status == 0 ? 1 : 0;
@@ -111,7 +113,7 @@ class CommentController extends Controller
     {
         $comment->approved = $comment->approved == 0 ? 1 : 0;
         $result = $comment->save();
-        return redirect()->route('admin.content.comment.index')->with(
+        return redirect()->route('admin.market.comment.index')->with(
             'alert-section-success',
             'Comment successfully updated.'
         );

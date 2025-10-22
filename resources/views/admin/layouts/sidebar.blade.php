@@ -30,6 +30,7 @@
                                <a class="nav-link" href="{{ route('admin.market.color.index') }}">Colors</a>
                                <a class="nav-link" href="{{ route('admin.market.size.index') }}">Sizes</a>
                                <a class="nav-link" href="{{ route('admin.market.product.index') }}">Products</a>
+                               <a class="nav-link" href="{{ route('admin.market.comment.index') }}">Comments</a>
 
                            </nav>
                        </div>
