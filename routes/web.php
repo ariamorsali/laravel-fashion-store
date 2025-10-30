@@ -17,6 +17,9 @@ use App\Http\Controllers\Admin\Market\ProductSizeController;
 use App\Http\Controllers\Admin\Market\ProductVariantController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\PropertyValueController;
+use App\Http\Controllers\Admin\Market\WarehouseController;
+use App\Http\Controllers\Admin\Market\WarehouseTransactionController;
+use App\Http\Controllers\Admin\Market\WarehouseVariantController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -125,6 +128,30 @@ Route::prefix('admin')->group(function () {
             Route::get('/status/{comment}', [CommentController::class, 'status'])->name('admin.market.comment.status');
             Route::get('/approved/{comment}', [CommentController::class, 'approved'])->name('admin.market.comment.approved');
             Route::post('/answer/{comment}', [CommentController::class, 'answer'])->name('admin.market.comment.answer');
+        });
+
+        // warehouse
+        Route::prefix('warehouse')->group(function () {
+            Route::get('/', [WarehouseController::class, 'index'])->name('admin.market.warehouse.index');
+            Route::get('/create', [WarehouseController::class, 'create'])->name('admin.market.warehouse.create');
+            Route::post('/store', [WarehouseController::class, 'store'])->name('admin.market.warehouse.store');
+            Route::get('/edit/{warehouse}', [WarehouseController::class, 'edit'])->name('admin.market.warehouse.edit');
+            Route::put('/update/{warehouse}', [WarehouseController::class, 'update'])->name('admin.market.warehouse.update');
+            Route::delete('/destroy/{warehouse}', [WarehouseController::class, 'destroy'])->name('admin.market.warehouse.destroy');
+
+            // warehouse_variant
+            Route::prefix('{warehouse}/variants')->group(function () {
+                Route::get('/', [WarehouseVariantController::class, 'index'])->name('admin.market.warehouse.variant.index');
+                Route::get('/create', [WarehouseVariantController::class, 'create'])->name('admin.market.warehouse.variant.create');
+                Route::post('/store', [WarehouseVariantController::class, 'store'])->name('admin.market.warehouse.variant.store');
+                Route::get('/edit/{warehouseVariant}', [WarehouseVariantController::class, 'edit'])->name('admin.market.warehouse.variant.edit');
+                Route::put('/update/{warehouseVariant}', [WarehouseVariantController::class, 'update'])->name('admin.market.warehouse.variant.update');
+            });
+        });
+
+        // warehouse_transaction
+        Route::prefix('/transaction')->group(function () {
+            Route::get('/', [WarehouseTransactionController::class, 'index'])->name('admin.market.transaction.index');
         });
     });
 

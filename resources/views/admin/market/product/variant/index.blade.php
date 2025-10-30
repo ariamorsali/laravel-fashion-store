@@ -3,7 +3,6 @@
 @section('head-tag')
     <title>Product Variants</title>
 @endsection
-
 @section('content')
     <section class="container-fluid px-0">
         <nav style="background-color: #eee; height: 2.25rem" class="my-4 rounded ps-2" aria-label="breadcrumb">
@@ -52,7 +51,6 @@
                             <th scope="col">Color</th>
                             <th scope="col">Size</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Stock</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> Setting</th>
                         </tr>
                     </thead>
@@ -71,7 +69,6 @@
 
                                 <td>{{ $variant->size->name ?? '-' }}</td>
                                 <td>{{ number_format($variant->price) }}</td>
-                                <td>{{ $variant->stock }}</td>
 
                                 <td class="width-16-rem text-center">
                                     <a href="{{ route('admin.market.variant.edit', ['product' => $product, 'variant' => $variant]) }}"

@@ -69,7 +69,7 @@
                     @csrf
                     <section class="row">
 
-                        <section class="col-12 mt-3">
+                        <section class="col-12 col-md-6 mt-3">
                             <div class="form-group">
                                 <label>Product</label>
                                 <p
@@ -132,18 +132,7 @@
                             @enderror
                         </section>
 
-                        <section class="col-12 col-md-6 my-3">
-                            <div class="form-group">
-                                <label for="stock">Stock</label>
-                                <input type="text" class="form-control form-control-sm" name="stock" id="stock"
-                                    value="{{ old('stock') }}">
-                            </div>
-                            @error('stock')
-                                <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
-                                    <strong>{{ $message }}</strong>
-                                </div>
-                            @enderror
-                        </section>
+                     
 
                         <section class="col-12 my-3 d-flex justify-content-end">
                             <button class="btn btn-primary">Submit</button>

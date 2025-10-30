@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin\Market;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductVariantRequest extends FormRequest
+class WarehouseVariantRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,14 +19,11 @@ class ProductVariantRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'colors' => 'required|array|min:1',
-            'colors.*' => 'integer|exists:product_colors,id',
-            'sizes' => 'nullable|array',
-            'sizes.*' => 'integer|exists:product_sizes,id',
-            'price' => 'required|numeric|min:1',
+            'product_variant_id' => 'required|integer|exists:product_variants,id',
+            'stock' => 'required|integer|min:1',
         ];
     }
 }

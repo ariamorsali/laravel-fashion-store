@@ -15,25 +15,42 @@
                        </a>
 
                        <div class="sb-sidenav-menu-heading">Market</div>
-                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+
+                       <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                            Showcase
                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                        </a>
-                       <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                           data-bs-parent="#sidenavAccordion">
+                       <div class="collapse" id="collapseLayouts" data-bs-parent="#sidenavAccordion">
                            <nav class="sb-sidenav-menu-nested nav">
                                <a class="nav-link" href="{{ route('admin.market.category.index') }}">Categories</a>
                                <a class="nav-link" href="{{ route('admin.market.brand.index') }}">Brands</a>
-                               <a class="nav-link" href="{{ route('admin.market.property.index') }}">Product Attribute</a>
+                               <a class="nav-link" href="{{ route('admin.market.property.index') }}">Product
+                                   Attribute</a>
                                <a class="nav-link" href="{{ route('admin.market.color.index') }}">Colors</a>
                                <a class="nav-link" href="{{ route('admin.market.size.index') }}">Sizes</a>
                                <a class="nav-link" href="{{ route('admin.market.product.index') }}">Products</a>
                                <a class="nav-link" href="{{ route('admin.market.comment.index') }}">Comments</a>
 
+                               <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                   data-bs-target="#warehouseMenu" aria-expanded="false" aria-controls="warehouseMenu"
+                                   title="Manage all warehouses in the system">
+                                   Warehouse
+                                   <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                               </a>
+                               <div class="collapse" id="warehouseMenu" data-bs-parent="#collapseLayouts">
+                                   <nav class="sb-sidenav-menu-nested nav">
+                                       <a class="nav-link" href="{{ route('admin.market.warehouse.index') }}">Warehouses
+                                           List</a>
+                                       <a class="nav-link" href="{{ route('admin.market.transaction.index') }}">Transactions</a>       
+                                   </nav>
+                               </div>
+
                            </nav>
                        </div>
+
+
                        <a class="nav-link" href="index.html">
                            <div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
                            Dashboard
@@ -63,7 +80,7 @@
                            FAQ
                        </a>
 
-                     
+
                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                            data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>

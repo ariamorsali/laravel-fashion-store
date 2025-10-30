@@ -195,6 +195,7 @@ return [
         'category_id' => 'category',
         'published_at' => 'Release date',
         'brand_id' => 'brand',
+        'product_variant_id' => 'variant',
     ],
 
 ];
