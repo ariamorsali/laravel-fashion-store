@@ -20,6 +20,10 @@ use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Admin\Market\WarehouseController;
 use App\Http\Controllers\Admin\Market\WarehouseTransactionController;
 use App\Http\Controllers\Admin\Market\WarehouseVariantController;
+use App\Http\Controllers\Admin\Ticket\AdminTicketController;
+use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
+use App\Http\Controllers\Admin\Ticket\TicketController;
+use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -152,6 +156,47 @@ Route::prefix('admin')->group(function () {
         // warehouse_transaction
         Route::prefix('/transaction')->group(function () {
             Route::get('/', [WarehouseTransactionController::class, 'index'])->name('admin.market.transaction.index');
+        });
+    });
+
+    // tickets
+    Route::prefix('/ticket')->group(function () {
+        Route::get('/', [TicketController::class, 'index'])->name('admin.ticket.index');
+        Route::get('/filter', [TicketController::class, 'filter'])->name('admin.ticket.filter');
+        Route::get('/show/{ticket}', [TicketController::class, 'show'])->name('admin.ticket.show');
+        Route::post('/answer/{ticket}', [TicketController::class, 'answer'])->name('admin.ticket.answer');
+        Route::get('/change/{ticket}', [TicketController::class, 'change'])->name('admin.ticket.change');
+
+        // ticket category
+        Route::prefix('/category')->group(function () {
+            Route::get('/', [TicketCategoryController::class, 'index'])->name('admin.ticket.category.index');
+            Route::get('/create', [TicketCategoryController::class, 'create'])->name('admin.ticket.category.create');
+            Route::post('/store', [TicketCategoryController::class, 'store'])->name('admin.ticket.category.store');
+            Route::get('/edit/{category}', [TicketCategoryController::class, 'edit'])->name('admin.ticket.category.edit');
+            Route::put('/update/{category}', [TicketCategoryController::class, 'update'])->name('admin.ticket.category.update');
+            Route::delete('/destroy/{category}', [TicketCategoryController::class, 'destroy'])->name('admin.ticket.category.destroy');
+            Route::get('/status/{category}', [TicketCategoryController::class, 'status'])->name('admin.ticket.category.status');
+        });
+
+        // ticket priority
+        Route::prefix('/priority')->group(function () {
+            Route::get('/', [TicketPriorityController::class, 'index'])->name('admin.ticket.priority.index');
+            Route::get('/create', [TicketPriorityController::class, 'create'])->name('admin.ticket.priority.create');
+            Route::post('/store', [TicketPriorityController::class, 'store'])->name('admin.ticket.priority.store');
+            Route::get('/edit/{priority}', [TicketPriorityController::class, 'edit'])->name('admin.ticket.priority.edit');
+            Route::put('/update/{priority}', [TicketPriorityController::class, 'update'])->name('admin.ticket.priority.update');
+            Route::delete('/destroy/{priority}', [TicketPriorityController::class, 'destroy'])->name('admin.ticket.priority.destroy');
+            Route::get('/status/{priority}', [TicketPriorityController::class, 'status'])->name('admin.ticket.priority.status');
+        });
+
+        // ticket admin
+        Route::prefix('/admin')->group(function () {
+            Route::get('/', [AdminTicketController::class, 'index'])->name('admin.ticket.admin.index');
+            Route::get('/create', [AdminTicketController::class, 'create'])->name('admin.ticket.admin.create');
+            Route::post('/store', [AdminTicketController::class, 'store'])->name('admin.ticket.admin.store');
+            Route::get('/edit/{adminTicket}', [AdminTicketController::class, 'edit'])->name('admin.ticket.admin.edit');
+            Route::put('/update/{adminTicket}', [AdminTicketController::class, 'update'])->name('admin.ticket.admin.update');
+            Route::delete('/destroy/{adminTicket}', [AdminTicketController::class, 'destroy'])->name('admin.ticket.admin.destroy');
         });
     });
 

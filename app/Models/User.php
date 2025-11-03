@@ -3,6 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Ticket\AdminTicket;
+use App\Models\Ticket\Ticket;
+use App\Models\Ticket\TicketCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,8 +50,28 @@ class User extends Authenticatable
         ];
     }
 
-   public function getFullNameAttribute()
+    public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function assignedTicket()
+    {
+        return $this->hasMany(Ticket::class, 'assigned_admin_id');
+    }
+
+    public function ticketAccesses()
+    {
+        return $this->hasMany(AdminTicket::class, 'admin_id');
+    }
+
+    public function accessibleCategories()
+    {
+        return $this->belongsToMany(
+            TicketCategory::class,
+            'ticket_admin_access',
+            'admin_id',
+            'category_id'
+        );
     }
 }
