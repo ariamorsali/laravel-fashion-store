@@ -52,9 +52,9 @@
                        </div>
 
 
-                       <a class="nav-link" href="index.html">
+                       <a class="nav-link" href="{{ route('admin.market.delivery.index') }}">
                            <div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
-                           Dashboard
+                           Deliveries
                        </a>
 
                        <div class="sb-sidenav-menu-heading">Content</div>

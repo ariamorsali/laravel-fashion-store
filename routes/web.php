@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Content\PostController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Market\CommentController;
+use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
@@ -156,6 +157,17 @@ Route::prefix('admin')->group(function () {
         // warehouse_transaction
         Route::prefix('/transaction')->group(function () {
             Route::get('/', [WarehouseTransactionController::class, 'index'])->name('admin.market.transaction.index');
+        });
+
+        // delivery
+        Route::prefix('delivery')->group(function () {
+            Route::get('/', [DeliveryController::class, 'index'])->name('admin.market.delivery.index');
+            Route::get('/create', [DeliveryController::class, 'create'])->name('admin.market.delivery.create');
+            Route::post('/store', [DeliveryController::class, 'store'])->name('admin.market.delivery.store');
+            Route::get('/edit/{delivery}', [DeliveryController::class, 'edit'])->name('admin.market.delivery.edit');
+            Route::put('/update/{delivery}', [DeliveryController::class, 'update'])->name('admin.market.delivery.update');
+            Route::delete('/destroy/{delivery}', [DeliveryController::class, 'destroy'])->name('admin.market.delivery.destroy');
+            Route::get('/status/{delivery}', [DeliveryController::class, 'status'])->name('admin.market.delivery.status');
         });
     });
 
