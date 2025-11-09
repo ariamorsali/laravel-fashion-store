@@ -1,0 +1,103 @@
+@extends('admin.layouts.master2')
+
+@section('head-tag')
+    <title>Coupons</title>
+@endsection
+
+@section('content')
+    <section class="container-fluid px-0">
+        <nav style="background-color: #eee; height: 2.25rem" class="my-4 rounded ps-2" aria-label="breadcrumb">
+            <ol class="breadcrumb p-1 ">
+                <li class="breadcrumb-item"><a href="#" style="text-decoration: none">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="#" style="text-decoration: none">Market</a></li>
+                <li class="breadcrumb-item active">Coupons</li>
+            </ol>
+        </nav>
+        <section class="main-body-container">
+            <section>
+                <h3 class="mt-2 mb-4">Coupons</h3>
+            </section>
+
+            @include('admin.alerts.alert-section.success')
+            @include('admin.alerts.alert-section.error')
+
+            <section class="d-flex align-items-center mt-4 mb-3 border-bottom pb-2">
+                <div class="me-auto" style="max-width: 16rem;">
+                    <input type="text" class="form-control form-control-sm form-text" placeholder="search..">
+                </div>
+                <a href="{{ route('admin.market.discount.coupon.create') }}" class="btn btn-dark btn-sm my-btn ">Create new
+                    coupon</a>
+            </section>
+
+
+            <section class="table-responsive">
+                <table class="table table-hover table-striped" style="text-align: center">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Discount ceiling</th>
+                            <th scope="col">Coupon type</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">End</th>
+                            <th scope="col">Status</th>
+
+                            <th class="max-width-14-rem text-center"><i class="fa fa-cogs"></i> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach ($coupons as $coupon)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $coupon->code }}</td>
+                                <td>{{ number_format($coupon->amount) }}</td>
+                                <td>{{ $coupon->amount_type == 0 ? 'Percentage' : 'Numerical' }}</td>
+                                <td>{{ $coupon->discount_ceiling ?? '-' }}</td>
+                                <td>{{ $coupon->type == 0 ? 'Common' : 'Private' }}</td>
+                                <td>{{ $coupon->start_date }}</td>
+                                <td>{{ $coupon->end_date }}</td>
+                                <td>
+                                    @switch($coupon->status)
+                                        @case(0)
+                                            inactive
+                                        @break
+
+                                        @case(1)
+                                            active
+                                        @break
+
+                                        @case(2)
+                                            expired
+                                        @break
+                                    @endswitch
+                                </td>
+                                <td class="width-14-rem text-center">
+                                    <a href="{{ route('admin.market.discount.coupon.edit', $coupon->id) }}"
+                                        class="btn btn-primary btn-sm width-4-rem mi"><i class="fa fa-edit"></i>
+                                        Edit</a>
+                                    <form class="d-inline"
+                                        action="{{ route('admin.market.discount.coupon.destroy', $coupon->id) }}"
+                                        method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-danger btn-sm width-4-rem mi delete" type="submit"><i
+                                                class="fa fa-trash-alt"></i> Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
+            </section>
+        </section>
+
+    </section>
+@endsection
+
+@section('script')
+    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+@endsection

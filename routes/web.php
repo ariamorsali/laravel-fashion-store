@@ -7,9 +7,12 @@ use App\Http\Controllers\Admin\Content\FAQController;
 use App\Http\Controllers\Admin\Content\FaqsController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PostController;
+use App\Http\Controllers\Admin\Market\AmazingSaleController;
 use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Market\CommentController;
+use App\Http\Controllers\Admin\Market\CommonDiscountController;
+use App\Http\Controllers\Admin\Market\CoupanController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
@@ -169,6 +172,46 @@ Route::prefix('admin')->group(function () {
             Route::delete('/destroy/{delivery}', [DeliveryController::class, 'destroy'])->name('admin.market.delivery.destroy');
             Route::get('/status/{delivery}', [DeliveryController::class, 'status'])->name('admin.market.delivery.status');
         });
+
+        // discount
+        Route::prefix('/discount')->group(function () {
+            // coupon
+            Route::prefix('/coupon')->group(function () {
+                Route::get('/', [CoupanController::class, 'index'])->name('admin.market.discount.coupon');
+                Route::get('/create', [CoupanController::class, 'create'])->name('admin.market.discount.coupon.create');
+                Route::post('/store', [CoupanController::class, 'store'])->name('admin.market.discount.coupon.store');
+                Route::get('/edit/{coupon}', [CoupanController::class, 'edit'])->name('admin.market.discount.coupon.edit');
+                Route::put('/update/{coupon}', [CoupanController::class, 'update'])->name('admin.market.discount.coupon.update');
+                Route::delete('/destroy/{coupon}', [CoupanController::class, 'destroy'])->name('admin.market.discount.coupon.destroy');
+            });
+            // common_discount
+            Route::prefix('/common-discount')->group(function () {
+                Route::get('/', [CommonDiscountController::class, 'index'])->name('admin.market.discount.common_discount');
+                Route::get('/create', [CommonDiscountController::class, 'create'])->name('admin.market.discount.common_discount.create');
+                Route::post('/store', [CommonDiscountController::class, 'store'])->name('admin.market.discount.common_discount.store');
+                Route::get('/edit/{common_discount}', [CommonDiscountController::class, 'edit'])->name('admin.market.discount.common_discount.edit');
+                Route::put('/update/{common_discount}', [CommonDiscountController::class, 'update'])->name('admin.market.discount.common_discount.update');
+                Route::delete('/destroy/{common_discount}', [CommonDiscountController::class, 'destroy'])->name('admin.market.discount.common_discount.destroy');
+            });
+
+            // amzing_sale
+            Route::prefix('/amazing-sale')->group(function () {
+                Route::get('/', [AmazingSaleController::class, 'index'])->name('admin.market.discount.amazingSale');
+                Route::get('/create', [AmazingSaleController::class, 'create'])->name('admin.market.discount.amazingSale.create');
+                Route::post('/store', [AmazingSaleController::class, 'store'])->name('admin.market.discount.amazingSale.store');
+                Route::get('/edit/{amazingSale}', [AmazingSaleController::class, 'edit'])->name('admin.market.discount.amazingSale.edit');
+                Route::put('/update/{amazingSale}', [AmazingSaleController::class, 'update'])->name('admin.market.discount.amazingSale.update');
+                Route::delete('/destroy/{amazingSale}', [AmazingSaleController::class, 'destroy'])->name('admin.market.discount.amazingSale.destroy');
+            });
+        });
+
+        // payment
+        // Route::prefix('payments')->group(function () {
+        //     Route::get('/', [DeliveryController::class, 'index'])->name('admin.market.payment.index');
+        //     Route::get('/show/{payment}', [DeliveryController::class, 'show'])->name('admin.market.delivery.show');
+        //     Route::delete('/destroy/{payment}', [DeliveryController::class, 'destroy'])->name('admin.market.delivery.destroy');
+        //     Refund
+        // });
     });
 
     // tickets

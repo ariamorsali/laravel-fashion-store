@@ -50,6 +50,20 @@
 
                            </nav>
                        </div>
+                       <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                           data-bs-target="#discountMenu" aria-expanded="false" aria-controls="discountMenu"
+                           title="Manage all discounts in the system"><div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
+                           Discounts
+                           <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                       </a>
+                       <div class="collapse" id="discountMenu" data-bs-parent="#collapseLayouts">
+                           <nav class="sb-sidenav-menu-nested nav">
+                               <a class="nav-link" href="{{ route('admin.market.discount.coupon') }}">Coupan Discount</a>
+                               <a class="nav-link" href="{{ route('admin.market.discount.common_discount') }}">Common Discount</a>
+                               <a class="nav-link" href="{{ route('admin.market.discount.amazingSale') }}">Amazing Sale</a>
+
+                           </nav>
+                       </div>
 
 
                        <a class="nav-link" href="{{ route('admin.market.delivery.index') }}">
