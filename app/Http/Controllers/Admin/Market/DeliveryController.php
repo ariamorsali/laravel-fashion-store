@@ -36,7 +36,7 @@ class DeliveryController extends Controller
         Delivery::create($inputs);
         return redirect()->route('admin.market.delivery.index')->with(
             'alert-section-success',
-            'Your new brand was successfully registered.'
+            'Your new delivery was successfully registered.'
         );
     }
 
@@ -65,7 +65,7 @@ class DeliveryController extends Controller
         $delivery->update($inputs);
         return redirect(route('admin.market.delivery.index'))->with(
             'alert-section-success',
-            'brand editing completed successfully.'
+            'delivery editing completed successfully.'
         );
     }
 
@@ -77,7 +77,7 @@ class DeliveryController extends Controller
         $delivery->delete();
         return redirect(route('admin.market.delivery.index'))->with(
             'alert-section-success',
-            'Brand successfully deleted.'
+            'delivery successfully deleted.'
         );
     }
 

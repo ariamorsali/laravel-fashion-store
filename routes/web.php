@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Market\CommonDiscountController;
 use App\Http\Controllers\Admin\Market\CoupanController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\GalleryController;
+use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\ProductSizeController;
@@ -202,6 +203,22 @@ Route::prefix('admin')->group(function () {
                 Route::get('/edit/{amazingSale}', [AmazingSaleController::class, 'edit'])->name('admin.market.discount.amazingSale.edit');
                 Route::put('/update/{amazingSale}', [AmazingSaleController::class, 'update'])->name('admin.market.discount.amazingSale.update');
                 Route::delete('/destroy/{amazingSale}', [AmazingSaleController::class, 'destroy'])->name('admin.market.discount.amazingSale.destroy');
+            });
+
+            // order
+            Route::prefix('/order')->group(function () {
+                Route::get('/', [OrderController::class, 'index'])->name('admin.market.order.index');
+                Route::get('/show/{order}', [OrderController::class, 'show'])->name('admin.market.order.show');
+                Route::get('/new-order', [OrderController::class, 'newOrder'])->name('admin.market.order.newOrder');
+                Route::get('/sending', [OrderController::class, 'sending'])->name('admin.market.order.sending');
+                Route::get('/unpaid', [OrderController::class, 'unpaid'])->name('admin.market.order.unpaid');
+                Route::get('/canceled', [OrderController::class, 'canceled'])->name('admin.market.order.canceled');
+                Route::get('/returned', [OrderController::class, 'returned'])->name('admin.market.order.returned');
+                Route::get('/show/{order}/detail', [OrderController::class, 'detail'])->name('admin.market.order.show.detail');
+
+                Route::get('/change-send-status/{order}', [OrderController::class, 'changeSendStatus'])->name('admin.market.order.changeSendStatus');
+                Route::get('/change-order-status/{order}', [OrderController::class, 'changeOrderStatus'])->name('admin.market.order.changeOrderStatus');
+                Route::get('/cancel-order/{order}', [OrderController::class, 'cancelOrder'])->name('admin.market.order.cancelOrder');
             });
         });
 

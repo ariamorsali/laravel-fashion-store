@@ -12,8 +12,8 @@
     <section id="layoutSidenav">
 
         @include('admin.layouts.sidebar')
-        <div id="layoutSidenav_content">
-            <section class="main-body">
+        <div id="layoutSidenav_content" >
+            <section class="main-body" >
                 @yield('content')
             </section>
         </div>

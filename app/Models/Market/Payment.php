@@ -6,19 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductAttributeValue extends Model
+class Payment extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
 
-    public function product()
+    public function order()
     {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function productAttribute()
-    {
-        return $this->belongsTo(ProductAttribute::class, 'product_attribute_id');
+        return $this->belongsTo(Order::class);
     }
 }
