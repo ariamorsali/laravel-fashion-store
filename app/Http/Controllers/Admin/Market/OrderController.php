@@ -18,6 +18,10 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+        if ($order->order_status === 'not_checked') {
+            $order->order_status = 'awaiting_confirmation';
+            $order->save();
+        }
         return view('admin.market.order.show', compact('order'));
     }
 
@@ -28,31 +32,36 @@ class OrderController extends Controller
 
     public function newOrder()
     {
-        //
+        $orders = Order::where('order_status', 'not_checked')->get();
+        return view('admin.market.order.index', compact('orders'));
     }
 
     public function sending()
     {
-        //
+        $orders = Order::where('delivery_status', 'sending')->get();
+        return view('admin.market.order.index', compact('orders'));
     }
 
     public function unpaid()
     {
-        //
+        $orders = Order::where('payment_status', 'unpaid')->get();
+        return view('admin.market.order.index', compact('orders'));
     }
     public function canceled()
     {
-        //
+        $orders = Order::where('order_status', 'canceled')->get();
+        return view('admin.market.order.index', compact('orders'));
     }
     public function returned()
     {
-        //
+        $orders = Order::where('order_status', 'returned')->get();
+        return view('admin.market.order.index', compact('orders'));
     }
 
     public function changeSendStatus(Order $order)
     {
         switch ($order->delivery_status) {
-            case 'pending':
+            case 'sending':
                 $order->delivery_status = 'shipped';
                 break;
             case 'shipped':
@@ -62,7 +71,7 @@ class OrderController extends Controller
                 $order->delivery_status = 'canceled';
                 break;
             default:
-                $order->delivery_status = 'pending';
+                $order->delivery_status = 'sending';
                 break;
         }
         $order->save();

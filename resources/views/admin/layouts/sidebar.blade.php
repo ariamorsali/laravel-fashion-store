@@ -61,6 +61,11 @@
                        <div class="collapse" id="orderMenu" data-bs-parent="#collapseLayouts">
                            <nav class="sb-sidenav-menu-nested nav">
                                <a class="nav-link" href="{{ route('admin.market.order.index') }}">All Orders</a>
+                               <a class="nav-link" href="{{ route('admin.market.order.newOrder') }}">New</a>
+                               <a class="nav-link" href="{{ route('admin.market.order.sending') }}">Sending</a>
+                               <a class="nav-link" href="{{ route('admin.market.order.unpaid') }}">Unpaid</a>
+                               <a class="nav-link" href="{{ route('admin.market.order.canceled') }}">Canceled</a>
+                               <a class="nav-link" href="{{ route('admin.market.order.returned') }}">Returned</a>
                            </nav>
                        </div>
 
