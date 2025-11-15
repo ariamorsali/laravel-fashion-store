@@ -74,4 +74,23 @@ class User extends Authenticatable
             'category_id'
         );
     }
+
+    public function updateLoyaltyLevel()
+    {
+        $total = $this->orders()
+            ->where('payment_status', 'paid')
+            ->sum('order_final_amount');
+
+        if ($total >= 50000000) {
+            $this->loyalty_level = 'platinum';
+        } elseif ($total >= 20000000) {
+            $this->loyalty_level = 'gold';
+        } elseif ($total >= 5000000) {
+            $this->loyalty_level = 'silver';
+        } else {
+            $this->loyalty_level = 'bronze';
+        }
+
+        $this->save();
+    }
 }

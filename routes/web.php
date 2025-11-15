@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\Market\CoupanController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\GalleryController;
 use App\Http\Controllers\Admin\Market\OrderController;
+use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\ProductSizeController;
@@ -174,6 +175,29 @@ Route::prefix('admin')->group(function () {
             Route::get('/status/{delivery}', [DeliveryController::class, 'status'])->name('admin.market.delivery.status');
         });
 
+        // order
+        Route::prefix('/order')->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name('admin.market.order.index');
+            Route::get('/show/{order}', [OrderController::class, 'show'])->name('admin.market.order.show');
+            Route::get('/new-order', [OrderController::class, 'newOrder'])->name('admin.market.order.newOrder');
+            Route::get('/sending', [OrderController::class, 'sending'])->name('admin.market.order.sending');
+            Route::get('/unpaid', [OrderController::class, 'unpaid'])->name('admin.market.order.unpaid');
+            Route::get('/canceled', [OrderController::class, 'canceled'])->name('admin.market.order.canceled');
+            Route::get('/returned', [OrderController::class, 'returned'])->name('admin.market.order.returned');
+            Route::get('/show/{order}/detail', [OrderController::class, 'detail'])->name('admin.market.order.show.detail');
+
+            Route::get('/change-send-status/{order}', [OrderController::class, 'changeSendStatus'])->name('admin.market.order.changeSendStatus');
+            Route::get('/change-order-status/{order}', [OrderController::class, 'changeOrderStatus'])->name('admin.market.order.changeOrderStatus');
+            Route::get('/cancel-order/{order}', [OrderController::class, 'cancelOrder'])->name('admin.market.order.cancelOrder');
+        });
+        // payment
+        Route::prefix('payment')->group(function () {
+            Route::get('/', [PaymentController::class, 'index'])->name('admin.market.payment.index');
+            Route::get('/show/{payment}', [PaymentController::class, 'show'])->name('admin.market.payment.show');
+            Route::get('/change-payment-status/{payment}', [PaymentController::class, 'changePaymentStatus'])->name('admin.market.payment.changePaymentStatus');
+            Route::get('/filter', [PaymentController::class, 'filter'])->name('admin.market.payment.filter');
+        });
+
         // discount
         Route::prefix('/discount')->group(function () {
             // coupon
@@ -204,30 +228,19 @@ Route::prefix('admin')->group(function () {
                 Route::put('/update/{amazingSale}', [AmazingSaleController::class, 'update'])->name('admin.market.discount.amazingSale.update');
                 Route::delete('/destroy/{amazingSale}', [AmazingSaleController::class, 'destroy'])->name('admin.market.discount.amazingSale.destroy');
             });
-
-            // order
-            Route::prefix('/order')->group(function () {
-                Route::get('/', [OrderController::class, 'index'])->name('admin.market.order.index');
-                Route::get('/show/{order}', [OrderController::class, 'show'])->name('admin.market.order.show');
-                Route::get('/new-order', [OrderController::class, 'newOrder'])->name('admin.market.order.newOrder');
-                Route::get('/sending', [OrderController::class, 'sending'])->name('admin.market.order.sending');
-                Route::get('/unpaid', [OrderController::class, 'unpaid'])->name('admin.market.order.unpaid');
-                Route::get('/canceled', [OrderController::class, 'canceled'])->name('admin.market.order.canceled');
-                Route::get('/returned', [OrderController::class, 'returned'])->name('admin.market.order.returned');
-                Route::get('/show/{order}/detail', [OrderController::class, 'detail'])->name('admin.market.order.show.detail');
-
-                Route::get('/change-send-status/{order}', [OrderController::class, 'changeSendStatus'])->name('admin.market.order.changeSendStatus');
-                Route::get('/change-order-status/{order}', [OrderController::class, 'changeOrderStatus'])->name('admin.market.order.changeOrderStatus');
-                Route::get('/cancel-order/{order}', [OrderController::class, 'cancelOrder'])->name('admin.market.order.cancelOrder');
-            });
         });
-
-        // payment
-        // Route::prefix('payments')->group(function () {
-        //     Route::get('/', [DeliveryController::class, 'index'])->name('admin.market.payment.index');
-        //     Route::get('/show/{payment}', [DeliveryController::class, 'show'])->name('admin.market.delivery.show');
-        //     Route::delete('/destroy/{payment}', [DeliveryController::class, 'destroy'])->name('admin.market.delivery.destroy');
-        //     Refund
+        // Route::prefix('customer')->group(function () {
+        //     // customer  مشتریان
+        //     Route::prefix('customer')->group(function () {
+        //         Route::get('/', [CustomerController::class, 'index'])->name('admin.user.customer.index');
+        //         Route::get('/create', [CustomerController::class, 'create'])->name('admin.user.customer.create');
+        //         Route::post('/store', [CustomerController::class, 'store'])->name('admin.user.customer.store');
+        //         Route::get('/edit/{customer}', [CustomerController::class, 'edit'])->name('admin.user.customer.edit');
+        //         Route::put('/update/{customer}', [CustomerController::class, 'update'])->name('admin.user.customer.update');
+        //         Route::delete('/destroy/{customer}', [CustomerController::class, 'destroy'])->name('admin.user.customer.destroy');
+        //         Route::get('/status/{customer}', [CustomerController::class, 'status'])->name('admin.user.customer.status');
+        //         Route::get('/activation/{customer}', [CustomerController::class, 'activation'])->name('admin.user.customer.activation');
+        //     });
         // });
     });
 

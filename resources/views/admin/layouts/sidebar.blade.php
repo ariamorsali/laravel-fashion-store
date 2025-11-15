@@ -69,6 +69,11 @@
                            </nav>
                        </div>
 
+                       <a class="nav-link" href="{{ route('admin.market.payment.index') }}">
+                           <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
+                           Payments
+                       </a>
+
                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                            data-bs-target="#discountMenu" aria-expanded="false" aria-controls="discountMenu"
                            title="Manage all discounts in the system">
