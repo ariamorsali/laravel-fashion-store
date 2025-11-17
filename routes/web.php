@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\Ticket\AdminTicketController;
 use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
 use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
+use App\Http\Controllers\Admin\User\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -229,20 +230,24 @@ Route::prefix('admin')->group(function () {
                 Route::delete('/destroy/{amazingSale}', [AmazingSaleController::class, 'destroy'])->name('admin.market.discount.amazingSale.destroy');
             });
         });
-        // Route::prefix('customer')->group(function () {
-        //     // customer  مشتریان
-        //     Route::prefix('customer')->group(function () {
-        //         Route::get('/', [CustomerController::class, 'index'])->name('admin.user.customer.index');
-        //         Route::get('/create', [CustomerController::class, 'create'])->name('admin.user.customer.create');
-        //         Route::post('/store', [CustomerController::class, 'store'])->name('admin.user.customer.store');
-        //         Route::get('/edit/{customer}', [CustomerController::class, 'edit'])->name('admin.user.customer.edit');
-        //         Route::put('/update/{customer}', [CustomerController::class, 'update'])->name('admin.user.customer.update');
-        //         Route::delete('/destroy/{customer}', [CustomerController::class, 'destroy'])->name('admin.user.customer.destroy');
-        //         Route::get('/status/{customer}', [CustomerController::class, 'status'])->name('admin.user.customer.status');
-        //         Route::get('/activation/{customer}', [CustomerController::class, 'activation'])->name('admin.user.customer.activation');
-        //     });
-        // });
     });
+
+
+    // user 
+    Route::prefix('user')->group(function () {
+        // customer  مشتریان
+        Route::prefix('customer')->group(function () {
+            Route::get('/', [CustomerController::class, 'index'])->name('admin.user.customer.index');
+            Route::get('/create', [CustomerController::class, 'create'])->name('admin.user.customer.create');
+            Route::post('/store', [CustomerController::class, 'store'])->name('admin.user.customer.store');
+            Route::get('/edit/{customer}', [CustomerController::class, 'edit'])->name('admin.user.customer.edit');
+            Route::put('/update/{customer}', [CustomerController::class, 'update'])->name('admin.user.customer.update');
+            Route::delete('/destroy/{customer}', [CustomerController::class, 'destroy'])->name('admin.user.customer.destroy');
+            Route::get('/status/{customer}', [CustomerController::class, 'status'])->name('admin.user.customer.status');
+            Route::get('/activation/{customer}', [CustomerController::class, 'activation'])->name('admin.user.customer.activation');
+        });
+    });
+
 
     // tickets
     Route::prefix('/ticket')->group(function () {

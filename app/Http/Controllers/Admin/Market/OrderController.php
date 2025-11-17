@@ -11,7 +11,8 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::orderBy('id', 'desc')->paginate(20);
+
         return view('admin.market.order.index', compact('orders'));
     }
 
@@ -32,29 +33,29 @@ class OrderController extends Controller
 
     public function newOrder()
     {
-        $orders = Order::where('order_status', 'not_checked')->get();
+        $orders = Order::where('order_status', 'not_checked')->paginate(20);
         return view('admin.market.order.index', compact('orders'));
     }
 
     public function sending()
     {
-        $orders = Order::where('delivery_status', 'sending')->get();
+        $orders = Order::where('delivery_status', 'sending')->paginate(20);
         return view('admin.market.order.index', compact('orders'));
     }
 
     public function unpaid()
     {
-        $orders = Order::where('payment_status', 'unpaid')->get();
+        $orders = Order::where('payment_status', 'unpaid')->paginate(20);
         return view('admin.market.order.index', compact('orders'));
     }
     public function canceled()
     {
-        $orders = Order::where('order_status', 'canceled')->get();
+        $orders = Order::where('order_status', 'canceled')->paginate(20);
         return view('admin.market.order.index', compact('orders'));
     }
     public function returned()
     {
-        $orders = Order::where('order_status', 'returned')->get();
+        $orders = Order::where('order_status', 'returned')->paginate(20);
         return view('admin.market.order.index', compact('orders'));
     }
 

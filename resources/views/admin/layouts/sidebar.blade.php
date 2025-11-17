@@ -122,6 +122,15 @@
                            FAQ
                        </a>
 
+                       <div class="sb-sidenav-menu-heading">User</div>
+
+                       <a class="nav-link" href="{{ route('admin.user.customer.index') }}">
+                           <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                           Customers
+                       </a>
+
+
+
                        <div class="sb-sidenav-menu-heading">Tickets</div>
 
                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

@@ -8,25 +8,36 @@ use App\Models\Ticket\AdminTicket;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
+
+      protected $fillable = [
+        'first_name',
+        'last_name',
+        'mobile',
         'email',
         'password',
+        'national_code',
+        'profile_photo_path',
+        'activation',
+        'registration_date',
+        'user_type',
+        'mobile_verified_at',
+        'email_verified_at',
     ];
-
+  
     /**
      * The attributes that should be hidden for serialization.
      *

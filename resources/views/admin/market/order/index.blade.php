@@ -18,7 +18,7 @@
                 <li class="breadcrumb-item active">Orders</li>
             </ol>
         </nav>
-        <section class="main-body-container" >
+        <section class="main-body-container">
             <section>
                 <h3 class="mt-2 mb-4">Orders</h3>
             </section>
@@ -86,7 +86,7 @@
                                             <li>
                                                 <a href="{{ route('admin.market.order.changeSendStatus', $order) }}"
                                                     class="dropdown-item text-right"><i class="fa-solid fa-truck"></i>
-                                                   Change the sending status</a>
+                                                    Change the sending status</a>
                                             </li>
 
                                             <li>
@@ -111,9 +111,11 @@
 
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $orders->onEachSide(1)->links('vendor.pagination.custom') }}
+                </div>
             </section>
         </section>
 
     </section>
-
 @endsection

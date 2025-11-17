@@ -8,23 +8,30 @@ use Intervention\Image\Facades\Image;
 class ImageService extends ImageToolsService
 {
 
-    public function save($image)
-    {
-        $this->setImage($image);
-        $this->provider();
+  public function save($image)
+{
+    $this->setImage($image);
+    $this->provider();
 
-        $extension = strtolower($image->getClientOriginalExtension());
+    $extension = strtolower($image->getClientOriginalExtension());
 
-        if ($extension === 'gif') {
-            // فقط کپی کن، پردازش نکن
-            $result = $image->move(public_path(dirname($this->getImageAddress())), basename($this->getImageAddress()));
-            return $result ? $this->getImageAddress() : false;
-        }
+    if ($extension === 'gif') {
+        // فقط کپی کن، پردازش نکن
+        $result = $image->move(
+            public_path(dirname($this->getImageAddress())),
+            basename($this->getImageAddress())
+        );
 
-        // پردازش برای بقیه‌ی فرمت‌ها
-        $result = Image::read($image->getRealPath())->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
         return $result ? $this->getImageAddress() : false;
     }
+
+    // نسخه صحیح برای Intervention Image v2
+    $result = Image::make($image->getRealPath())
+        ->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
+
+    return $result ? $this->getImageAddress() : false;
+}
+
 
 
     public function fitAndSave($image, $width, $height)

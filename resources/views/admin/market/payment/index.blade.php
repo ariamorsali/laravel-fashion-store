@@ -94,7 +94,12 @@
                         @endforeach
 
                     </tbody>
+
                 </table>
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $payments->onEachSide(1)->links('vendor.pagination.custom') }}
+                </div>
+
             </section>
         </section>
 

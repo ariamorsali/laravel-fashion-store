@@ -10,7 +10,7 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $payments = Payment::all();
+        $payments = Payment::orderBy('id', 'desc')->paginate(20);
         return view('admin.market.payment.index', compact('payments'));
     }
 
@@ -25,23 +25,23 @@ class PaymentController extends Controller
         if ($request->has('sort')) {
             switch ($request->sort) {
                 case '1':
-                    $payments = Payment::where('status', 'paid')->get();
+                    $payments = Payment::where('status', 'paid')->paginate(20);
                     break;
                 case '2':
-                    $payments = Payment::where('status', 'unpaid')->get();
+                    $payments = Payment::where('status', 'unpaid')->paginate(20);
                     break;
                 case '3':
-                    $payments = Payment::where('status', 'failed')->get();
+                    $payments = Payment::where('status', 'failed')->paginate(20);
                     break;
                 case '4':
-                    $payments = Payment::where('status', 'returned')->get();
+                    $payments = Payment::where('status', 'returned')->paginate(20);
                     break;
                 default:
-                    $payments = Payment::orderBy('created_at', 'DESC')->get();
+                    $payments = Payment::orderBy('created_at', 'DESC')->paginate(20);
                     break;
             }
         } else {
-            $payments = Payment::orderBy('created_at', 'DESC')->get();
+            $payments = Payment::orderBy('created_at', 'DESC')->paginate(20);
         }
         return  view("admin.market.payment.index", compact('payments'));
     }
