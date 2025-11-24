@@ -1,7 +1,7 @@
 @extends('admin.layouts.master2')
 
 @section('head-tag')
-    <title>Customers</title>
+    <title>Permissions</title>
 @endsection
 
 @section('content')
@@ -10,12 +10,12 @@
             <ol class="breadcrumb p-1 ">
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">User</a></li>
-                <li class="breadcrumb-item active">Customers</li>
+                <li class="breadcrumb-item active">Permissions</li>
             </ol>
         </nav>
         <section class="main-body-container">
             <section>
-                <h3 class="mt-2 mb-4">Customers</h3>
+                <h3 class="mt-2 mb-4">Permissions</h3>
             </section>
 
             @include('admin.alerts.alert-section.success')
@@ -25,8 +25,6 @@
                 <div class="me-auto" style="max-width: 16rem;">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="search..">
                 </div>
-                <a href="{{ route('admin.user.customer.create') }}" class="btn btn-dark btn-sm my-btn ">Create new
-                    customer</a>
             </section>
 
 
@@ -35,50 +33,42 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Mobile</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Registration date</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Roles</th>
                             <th scope="col">Status</th>
-                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        @foreach ($users as $user)
+                        @foreach ($permissions as $permission)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $user->full_name }}</td>
-                                <td>{{ $user->mobile }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->registration_date ?? '-' }}</td>
+                                <td>{{ $permission->name }}</td>
+
+                                <td>{{ $permission->description }}</td>
+                                <td>
+                                    @if ($permission->roles->isEmpty())
+                                        <span class="text-danger">No roles are defined for this access level.</span>
+                                    @else
+                                        @foreach ($permission->roles as $index => $role)
+                                            {{ $index + 1 }} - {{ $role->name }}<br>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>
                                     <label>
-                                        <input id="{{ $user->id }}" onchange="changeStatus({{ $user->id }})"
-                                            data-url="{{ route('admin.user.customer.activation', $user->id) }}"
-                                            type="checkbox" @if ($user->activation === 1) checked @endif>
+                                        <input id="{{ $permission->id }}" onchange="changeStatus({{ $permission->id }})"
+                                            data-url="{{ route('admin.user.permission.status', $permission->id) }}"
+                                            type="checkbox" @if ($permission->status === 1) checked @endif>
                                     </label>
-
-                                <td class="width-16-rem text-center">
-                                    <a href="{{ route('admin.user.customer.edit', $user->id) }}"
-                                        class="btn btn-primary btn-sm width-6-rem mi"><i class="fa fa-edit"></i>
-                                        Edit</a>
-                                    <form class="d-inline" action="{{ route('admin.user.customer.destroy', $user->id) }}"
-                                        method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger btn-sm width-6-rem mi delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> Delete</button>
-                                    </form>
                                 </td>
+
                             </tr>
                         @endforeach
 
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $users->onEachSide(1)->links('vendor.pagination.custom') }}
-                </div>
             </section>
         </section>
 
@@ -96,13 +86,13 @@
                 url: url,
                 type: "GET",
                 success: function(response) {
-                    if (response.activation) {
+                    if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
-                            successToast('User successfully activated.');
+                            successToast('Permission successfully activated.');
                         } else {
                             element.prop('checked', false);
-                            successToast('User successfully banned.');
+                            successToast('Permission successfully disabled.');
                         }
                     } else {
                         element.prop('checked', elementValue);
@@ -146,6 +136,4 @@
             }
         }
     </script>
-
-    @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

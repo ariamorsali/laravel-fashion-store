@@ -1,7 +1,7 @@
 @extends('admin.layouts.master2')
 
 @section('head-tag')
-    <title>Edit User</title>
+    <title>Edit Admin</title>
 @endsection
 
 @section('content')
@@ -10,19 +10,19 @@
             <ol class="breadcrumb p-1 ">
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">Users</a></li>
-                <li class="breadcrumb-item active">Edit User</li>
+                <li class="breadcrumb-item active">Edit Admin</li>
             </ol>
         </nav>
         <section class="main-body-container">
             <section>
-                <h3 class="mt-2">Edit User</h3>
+                <h3 class="mt-2">Edit Admin</h3>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-3 mb-3 border-bottom pb-3">
-                <a href="{{ route('admin.user.customer.index') }}" class="btn btn-dark btn-sm">Back</a>
+                <a href="{{ route('admin.user.admin.index') }}" class="btn btn-dark btn-sm">Back</a>
             </section>
 
             <section>
-                <form action="{{ route('admin.user.customer.update', $customer) }}" method="post"
+                <form action="{{ route('admin.user.admin.update', $admin) }}" method="post"
                     enctype="multipart/form-data" id="form">
                     @csrf
                     @method('put')
@@ -31,7 +31,7 @@
                             <div class="form-group">
                                 <label for="first_name">First name</label>
                                 <input type="text" class="form-control form-control-sm" name="first_name" id="first_name"
-                                    value="{{ old('first_name', $customer->first_name) }}">
+                                    value="{{ old('first_name', $admin->first_name) }}">
                             </div>
                             @error('first_name')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <label for="last_name">Last name</label>
                                 <input type="text" class="form-control form-control-sm" name="last_name" id="last_name"
-                                    value="{{ old('last_name', $customer->last_name) }}">
+                                    value="{{ old('last_name', $admin->last_name) }}">
                             </div>
                             @error('last_name')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="text" class="form-control form-control-sm" name="email" id="email"
-                                    value="{{ old('email', $customer->email) }}">
+                                    value="{{ old('email', $admin->email) }}">
                             </div>
                             @error('email')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <label for="mobile">Mobile</label>
                                 <input type="text" class="form-control form-control-sm" name="mobile" id="mobile"
-                                    value="{{ old('mobile', $customer->mobile) }}">
+                                    value="{{ old('mobile', $admin->mobile) }}">
                             </div>
                             @error('mobile')
                                 <div class="text-danger" style="margin-top: 9px; font-size: 12px; font-weight: 400;">
@@ -111,7 +111,7 @@
                                 <label for="profile_photo_path">Image</label>
                                 <input type="file" class="form-control form-control-sm" name="profile_photo_path"
                                     id="profile_photo_path">
-                                <img src="{{ asset($customer->profile_photo_path) }}" width="90" height="90"
+                                <img src="{{ asset($admin->profile_photo_path) }}" width="90" height="90"
                                     class="mt-3 border rounded">
 
                             </div>
@@ -126,9 +126,9 @@
                             <div class="form-group">
                                 <label for="activation">activation</label>
                                 <select name="activation" class="form-control form-control-sm" id="activation">
-                                    <option value="0" @if (old('activation', $customer->activation) == 0) selected @endif>inactive
+                                    <option value="0" @if (old('activation', $admin->activation) == 0) selected @endif>inactive
                                     </option>
-                                    <option value="1" @if (old('activation', $customer->activation) == 1) selected @endif>active
+                                    <option value="1" @if (old('activation', $admin->activation) == 1) selected @endif>active
                                     </option>
                                 </select>
                             </div>

@@ -1,7 +1,7 @@
 @extends('admin.layouts.master2')
 
 @section('head-tag')
-    <title>Customers</title>
+    <title>Roles</title>
 @endsection
 
 @section('content')
@@ -10,12 +10,12 @@
             <ol class="breadcrumb p-1 ">
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="#" style="text-decoration: none">User</a></li>
-                <li class="breadcrumb-item active">Customers</li>
+                <li class="breadcrumb-item active">Roles</li>
             </ol>
         </nav>
         <section class="main-body-container">
             <section>
-                <h3 class="mt-2 mb-4">Customers</h3>
+                <h3 class="mt-2 mb-4">Roles</h3>
             </section>
 
             @include('admin.alerts.alert-section.success')
@@ -25,8 +25,8 @@
                 <div class="me-auto" style="max-width: 16rem;">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="search..">
                 </div>
-                <a href="{{ route('admin.user.customer.create') }}" class="btn btn-dark btn-sm my-btn ">Create new
-                    customer</a>
+                <a href="{{ route('admin.user.role.create') }}" class="btn btn-dark btn-sm my-btn ">Create new
+                    role</a>
             </section>
 
 
@@ -35,40 +35,50 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Mobile</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Registration date</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Permissions</th>
                             <th scope="col">Status</th>
-                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> Actions</th>
+                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> Action</th>
+
                         </tr>
                     </thead>
                     <tbody>
 
-                        @foreach ($users as $user)
+                        @foreach ($roles as $role)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $user->full_name }}</td>
-                                <td>{{ $user->mobile }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->registration_date ?? '-' }}</td>
+                                <td>{{ $role->name }}</td>
+
+                                <td>{{ $role->description }}</td>
+                                <td>
+                                    @if ($role->permissions->isEmpty())
+                                        <span class="text-danger">No permissions are defined for this role.</span>
+                                    @else
+                                        @foreach ($role->permissions as $index => $permission)
+                                            {{ $index + 1 }} - {{ $permission->name }}<br>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>
                                     <label>
-                                        <input id="{{ $user->id }}" onchange="changeStatus({{ $user->id }})"
-                                            data-url="{{ route('admin.user.customer.activation', $user->id) }}"
-                                            type="checkbox" @if ($user->activation === 1) checked @endif>
+                                        <input id="{{ $role->id }}" onchange="changeStatus({{ $role->id }})"
+                                            data-url="{{ route('admin.user.role.status', $role->id) }}" type="checkbox"
+                                            @if ($role->status === 1) checked @endif>
                                     </label>
-
-                                <td class="width-16-rem text-center">
-                                    <a href="{{ route('admin.user.customer.edit', $user->id) }}"
-                                        class="btn btn-primary btn-sm width-6-rem mi"><i class="fa fa-edit"></i>
+                                </td>
+                                <td class="width-17-rem text-center">
+                                    <a href="{{ route('admin.user.role.permission-form', $role->id) }}"
+                                        class="btn btn-success btn-sm width-5-rem mi"><i class="fa fa-shield-alt"></i>
+                                        Access</a>
+                                    <a href="{{ route('admin.user.role.edit', $role->id) }}"
+                                        class="btn btn-primary btn-sm width-5-rem mi"><i class="fa fa-edit"></i>
                                         Edit</a>
-                                    <form class="d-inline" action="{{ route('admin.user.customer.destroy', $user->id) }}"
+                                    <form class="d-inline" action="{{ route('admin.user.role.destroy', $role->id) }}"
                                         method="post">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger btn-sm width-6-rem mi delete" type="submit"><i
-                                                class="fa fa-trash-alt"></i> Delete</button>
+                                        <button class="btn btn-danger btn-sm width-5-rem mi delete" type="submit">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -76,9 +86,6 @@
 
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $users->onEachSide(1)->links('vendor.pagination.custom') }}
-                </div>
             </section>
         </section>
 
@@ -96,13 +103,13 @@
                 url: url,
                 type: "GET",
                 success: function(response) {
-                    if (response.activation) {
+                    if (response.status) {
                         if (response.checked) {
                             element.prop('checked', true);
-                            successToast('User successfully activated.');
+                            successToast('Role successfully activated.');
                         } else {
                             element.prop('checked', false);
-                            successToast('User successfully banned.');
+                            successToast('Role successfully disabled.');
                         }
                     } else {
                         element.prop('checked', elementValue);
@@ -146,6 +153,5 @@
             }
         }
     </script>
-
     @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
 @endsection

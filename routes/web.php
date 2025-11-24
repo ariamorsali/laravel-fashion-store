@@ -30,7 +30,10 @@ use App\Http\Controllers\Admin\Ticket\AdminTicketController;
 use App\Http\Controllers\Admin\Ticket\TicketCategoryController;
 use App\Http\Controllers\Admin\Ticket\TicketController;
 use App\Http\Controllers\Admin\Ticket\TicketPriorityController;
+use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
+use App\Http\Controllers\Admin\User\PermissionController;
+use App\Http\Controllers\Admin\User\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -243,8 +246,41 @@ Route::prefix('admin')->group(function () {
             Route::get('/edit/{customer}', [CustomerController::class, 'edit'])->name('admin.user.customer.edit');
             Route::put('/update/{customer}', [CustomerController::class, 'update'])->name('admin.user.customer.update');
             Route::delete('/destroy/{customer}', [CustomerController::class, 'destroy'])->name('admin.user.customer.destroy');
-            Route::get('/status/{customer}', [CustomerController::class, 'status'])->name('admin.user.customer.status');
             Route::get('/activation/{customer}', [CustomerController::class, 'activation'])->name('admin.user.customer.activation');
+        });
+        // admin users
+        Route::prefix('admin-user')->group(function () {
+            Route::get('/', [AdminUserController::class, 'index'])->name('admin.user.admin.index');
+            Route::get('/create', [AdminUserController::class, 'create'])->name('admin.user.admin.create');
+            Route::post('/store', [AdminUserController::class, 'store'])->name('admin.user.admin.store');
+            Route::get('/edit/{admin}', [AdminUserController::class, 'edit'])->name('admin.user.admin.edit');
+            Route::put('/update/{admin}', [AdminUserController::class, 'update'])->name('admin.user.admin.update');
+            Route::delete('/destroy/{admin}', [AdminUserController::class, 'destroy'])->name('admin.user.admin.destroy');
+            Route::get('/activation/{admin}', [AdminUserController::class, 'activation'])->name('admin.user.admin.activation');
+            Route::get('/role/{admin}', [AdminUserController::class, 'role'])->name('admin.user.admin.role');
+            Route::post('/role/{admin}/store', [AdminUserController::class, 'roleStore'])->name('admin.user.admin.role.store');
+            Route::get('/permission/{admin}', [AdminUserController::class, 'permission'])->name('admin.user.admin.permission');
+            Route::post('/permission/{admin}/store', [AdminUserController::class, 'permissionStore'])->name('admin.user.admin.permission.store');
+            Route::get('/revoke/{admin}', [AdminUserController::class, 'revokeAdmin'])->name('admin.user.admin.revokeAdmin');
+        });
+
+        // permission
+        Route::prefix('permission')->group(function () {
+            Route::get('/', [PermissionController::class, 'index'])->name('admin.user.permission.index');
+            Route::get('/status/{permission}', [PermissionController::class, 'status'])->name('admin.user.permission.status');
+        });
+
+        // role
+        Route::prefix('role')->group(function () {
+            Route::get('/', [RoleController::class, 'index'])->name('admin.user.role.index');
+            Route::get('/create', [RoleController::class, 'create'])->name('admin.user.role.create');
+            Route::post('/store', [RoleController::class, 'store'])->name('admin.user.role.store');
+            Route::get('/edit/{role}', [RoleController::class, 'edit'])->name('admin.user.role.edit');
+            Route::put('/update/{role}', [RoleController::class, 'update'])->name('admin.user.role.update');
+            Route::delete('/destroy/{role}', [RoleController::class, 'destroy'])->name('admin.user.role.destroy');
+            Route::get('/status/{role}', [RoleController::class, 'status'])->name('admin.user.role.status');
+            Route::get('/{role}/permission-form', [RoleController::class, 'permissionForm'])->name('admin.user.role.permission-form');
+            Route::post('/{role}/permission/update', [RoleController::class, 'permissionUpdate'])->name('admin.user.role.permission.update');
         });
     });
 

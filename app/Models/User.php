@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Models\Ticket\AdminTicket;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketCategory;
+use App\Models\User\Permission;
+use App\Models\User\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +25,7 @@ class User extends Authenticatable
      * @var list<string>
      */
 
-      protected $fillable = [
+    protected $fillable = [
         'first_name',
         'last_name',
         'mobile',
@@ -37,7 +39,7 @@ class User extends Authenticatable
         'mobile_verified_at',
         'email_verified_at',
     ];
-  
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -103,5 +105,19 @@ class User extends Authenticatable
         }
 
         $this->save();
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+    public function hasRole($role)
+    {
+        return $this->roles()->where('name', $role)->exists();
     }
 }

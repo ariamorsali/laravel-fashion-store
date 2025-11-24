@@ -122,13 +122,29 @@
                            FAQ
                        </a>
 
-                       <div class="sb-sidenav-menu-heading">User</div>
+                       <div class="sb-sidenav-menu-heading">Users</div>
 
                        <a class="nav-link" href="{{ route('admin.user.customer.index') }}">
                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                            Customers
                        </a>
-
+                       <a class="nav-link" href="{{ route('admin.user.admin.index') }}">
+                           <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                           Admins
+                       </a>
+                       <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                           data-bs-target="#AccessLevelsMenu" aria-expanded="false" aria-controls="AccessLevelsMenu"
+                           title="Manage Access in the system">
+                           <div class="sb-nav-link-icon"><i class="fa-solid fa-user-shield"></i></div>
+                           Access levels
+                           <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                       </a>
+                       <div class="collapse" id="AccessLevelsMenu" data-bs-parent="#collapseLayouts">
+                           <nav class="sb-sidenav-menu-nested nav">
+                               <a class="nav-link" href="{{ route('admin.user.permission.index') }}">Permission</a>
+                               <a class="nav-link" href="{{ route('admin.user.role.index') }}">Roles</a>
+                           </nav>
+                       </div>
 
 
                        <div class="sb-sidenav-menu-heading">Tickets</div>
@@ -136,6 +152,7 @@
                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                            data-bs-target="#ticketMenu" aria-expanded="false" aria-controls="ticketMenu"
                            title="Manage all tickets in the system">
+                           <div class="sb-nav-link-icon"><i class="fa-solid fa-headset"></i></div>
                            Tickets
                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                        </a>

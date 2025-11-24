@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CustomerRequest;
 use App\Http\Services\Image\ImageService;
 use App\Models\User;
+use App\Models\User\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +18,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $users = User::where('user_type', 0)->orderBy('id', 'desc')->paginate(20);
+        $users = User::whereHas('roles', function ($q) {
+            $q->where('name', 'user');
+        })->orderBy('id', 'desc')->paginate(20);
         return view('admin.user.customer.index', compact('users'));
     }
 
@@ -36,7 +39,6 @@ class CustomerController extends Controller
     {
         $inputs = $request->validated();
         $inputs['password'] = Hash::make($request->password);
-        $inputs['user_type'] = 0;
         if ($request->hasFile('profile_photo_path')) {
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
             $result = $imageService->save($request->file('profile_photo_path'));
@@ -51,6 +53,9 @@ class CustomerController extends Controller
         }
 
         $user = User::create($inputs);
+        $user->roles()->attach(
+            Role::where('name', 'user')->first()->id
+        );
         return redirect()->route('admin.user.customer.index')->with(
             'alert-section-success',
             'New user successfully registered.'
@@ -112,11 +117,16 @@ class CustomerController extends Controller
      */
     public function destroy(User $customer)
     {
+        if ($customer->is_owner) {
+            return back()->with('alert-section-error', 'This user cannot be deleted.');
+        }
+        if (!$customer->hasRole('user')) {
+            return back()->with('alert-section-error', 'You are not allowed to delete this type of user.');
+        }
         $customer->delete();
-        return redirect(route('admin.user.customer.index'))->with(
-            'alert-section-success',
-            'User successfully deleted.'
-        );
+        return redirect()
+            ->route('admin.user.customer.index')
+            ->with('alert-section-success', 'User successfully deleted.');
     }
 
     public function activation(User $customer)
