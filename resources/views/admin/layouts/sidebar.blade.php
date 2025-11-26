@@ -148,15 +148,16 @@
                            </nav>
                        </div>
 
-                       <div class="sb-sidenav-menu-heading">Users</div>
-                       <a class="nav-link" href="charts.html">
-                           <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                           Charts
+                       <div class="sb-sidenav-menu-heading">notification</div>
+                       <a class="nav-link" href="{{ route('admin.notification.email.index') }}">
+                           <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
+                           Email notification
                        </a>
-                       <a class="nav-link" href="tables.html">
-                           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                           Tables
+                       <a class="nav-link" href="#">
+                           <div class="sb-nav-link-icon"><i class="fas fa-sms"></i></div>
+                           SMS notification
                        </a>
+
 
 
                    </div>
